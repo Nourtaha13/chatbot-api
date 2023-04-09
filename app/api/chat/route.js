@@ -14,14 +14,14 @@ export async function POST(request) {
          throw new Error("No prompt Value");
       }
 
-      return NextResponse.json({
-         ...(await openAI(prompt)),
-      });
-   } catch (error) {
       return NextResponse.json([
+         ...(await openAI(prompt)),
+      ]);
+   } catch (error) {
+      return NextResponse.json({
          err: true,
          msg: error.message,
-      ]);
+      });
    }
 }
 
