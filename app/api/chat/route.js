@@ -18,10 +18,10 @@ export async function POST(request) {
          ...(await openAI(prompt)),
       });
    } catch (error) {
-      return NextResponse.json({
+      return NextResponse.json([
          err: true,
          msg: error.message,
-      });
+      ]);
    }
 }
 
