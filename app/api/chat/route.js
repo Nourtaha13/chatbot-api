@@ -44,7 +44,7 @@ async function openAI(prompt) {
       const data = d.split("\n");
       let result = []
       data.forEach(d => {
-         result.push(d)
+         result.push(JSON.parse(d))
       })
       return result;
    } catch (err) {
