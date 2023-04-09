@@ -1,37 +1,26 @@
 import { NextResponse } from "next/server";
 
-// export const runtime = 'experimental-edge';
-// export const runtime = 'nodejs'
-export const config = {
-   bodyParser: true,
-};
 export async function POST(request) {
    try {
       const [val] = new URLSearchParams(request.nextUrl.search);
       if (!val) {
-         return NextResponse.json({
-            error: "No prompt provided",
-         });
+         throw new Error("No prompt provided");
       }
       const prompt = val[1];
       if (val[0] !== "prompt") {
-         return NextResponse.json({
-            error: "No prompt provided",
-         });
+         throw new Error("No prompt provided");
       }
       if (!prompt) {
-         return NextResponse.json({
-            error: "No prompt Value",
-         });
+         throw new Error("No prompt Value");
       }
 
       return NextResponse.json({
          ...(await openAI(prompt)),
       });
    } catch (error) {
-      console.log(error);
       return NextResponse.json({
-         error: error.message,
+         err: true,
+         msg: error.message,
       });
    }
 }
@@ -52,7 +41,12 @@ async function openAI(prompt) {
          throw new Error("Something error ...");
       }
       const d = await res.text();
-      return d.split("\n");;
+      const data = d.split("\n");
+      let result = []
+      data.forEach(d => {
+         result.push(JSON.parse(d))
+      })
+      return result;
    } catch (err) {
       throw new Error("Something error ...");
    }
