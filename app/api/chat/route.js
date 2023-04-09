@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-
+export const runtime = 'experimental-edge';
 export async function POST(request) {
    try {
       const [val] = new URLSearchParams(request.nextUrl.search);
